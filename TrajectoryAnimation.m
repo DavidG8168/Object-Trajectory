@@ -1,35 +1,34 @@
 %{
-*Function will dispaly the trajectory and movement
-path of the object using a given set of parameters.
-*f - Function.
-*x - Starting position x.
-*t - The current time in the movement cycle.
-*v - Velocity of object.
-*a - Acceleration of object (Gravity or other).
 %}
-function [] = TrajectoryAnimation(f,x,t,v,a)
-% Will mark the path of the moving object.
-object_path = animatedline('Color', 'b', 'Marker','O');
-%set(gca,'XLim',[-100 100],'YLim',[-100 100]);
-% The Y axis location of the object.
-y = f(x);
-% Display the current position for this amount of time. 
-pause(1)
-% Run if the time isn't over.
-if (t < 30)
-    % Draw the current position.
-    addpoints(object_path,x,y);
-    drawnow
-    % Update the position of the object for the next call.
-    % The location increases based on the speed.
-    x = x + v;
-    % Calculate the new velocty with the given acceleration.
-    v = v + a;
-    % If the velocity is not positive, the object has stopped moving.
-    if (v <=0 )
-        return
+function [] = TrajectoryAnimation(pos,vel,accel,r,t)
+
+    % Use a grid for better appearance while running. 
+    grid on
+    % Set the graph to follow the object closely.
+    %check this command later
+    set(gca,'XLim',[pos(1)-50 pos(1)+50],'YLim',[pos(2)-50 pos(2)+50]);
+    dt = 1;
+    % Create the object we will see moving.
+    object = rectangle('Position',[pos(1)-r/2,pos(2)-r/2,r,r],'FaceColor','red','EdgeColor','black', 'Curvature',[1 1]);
+    % Leave a trail of circles to mark the visited locations.
+    object_path = animatedline('Color', 'r', 'Marker','O');
+    % Pause for 3 seconds to clearly see the current location.
+    pause(3);
+    % Remove old object created in previous recursive call.
+    delete(object);
+    % Trail the object for 30 seconds.
+    if (t < 30)
+        % Increase the time.
+        t = t + dt;
+        % Calculate the veloctiy.
+        vel(2) = vel(2) + (accel * dt);
+        vel(1)= vel(1)+(accel*dt);
+         % Calculate the new position.
+        new_pos = pos + (vel * dt);
+        % Mark previously visited location and draw.
+        addpoints(object_path,pos(1) - r/2,pos(2) - r/2);
+        drawnow
+        % Recursively call with new velocity and position.
+        TrajectoryAnimation(new_pos,vel,accel,r,t);
     end
-    % Recursively call the function with updated parameters.
-    TrajectoryAnimation(f,x,t+1,v,a)
-end
 end
