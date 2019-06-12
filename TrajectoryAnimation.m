@@ -29,7 +29,7 @@ function [] = TrajectoryAnimation(pos,path,vel,accel,r,t)
     pause(1/24);
     % Remove old object created in previous recursive call.
     delete(object);
-    % Trail the object for 30*24 frames, approximately 30 seconds.
+    % Trail the object for 15 seconds.
     if (t < 15)
         % Change the time.
         t = t + dt;
