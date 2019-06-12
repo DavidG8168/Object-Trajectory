@@ -1,6 +1,6 @@
 %{
 %}
-function [] = TrajectoryAnimation(pos,vel,accel,r,t)
+function [] = TrajectoryAnimationV1(pos,vel,accel,r,t)
 
     % Use a grid for better appearance while running. 
     grid on
@@ -29,6 +29,6 @@ function [] = TrajectoryAnimation(pos,vel,accel,r,t)
         addpoints(object_path,pos(1) - r/2,pos(2) - r/2);
         drawnow
         % Recursively call with new velocity and position.
-        TrajectoryAnimation(new_pos,vel,accel,r,t);
+        TrajectoryAnimationV1(new_pos,vel,accel,r,t);
     end
 end
