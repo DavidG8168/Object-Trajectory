@@ -1,7 +1,7 @@
 %{
+    OLD VERSION -- USE NEW VERSION PLEASE.
 %}
 function [] = TrajectoryAnimationV1(pos,vel,accel,r,t)
-
     % Use a grid for better appearance while running. 
     grid on
     % Set the graph to follow the object closely.
